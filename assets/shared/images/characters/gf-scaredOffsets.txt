@@ -1,2 +1,0 @@
-danceLeft 45 -470
-danceRight 45 -470
