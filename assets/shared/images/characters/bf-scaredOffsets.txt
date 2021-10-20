@@ -1,0 +1,13 @@
+idle -161 -197
+singUP -206 -173
+singRIGHT -198 -202
+singLEFT -145 -204
+singDOWN -166 -250
+singUPmiss -194 -173
+singRIGHTmiss -194 -173
+singLEFTmiss -166 -178
+singDOWNmiss -171 -219
+firstDeath -112 -116
+deathLoop -130 -139
+deathConfirm -120 -139
+dodge -158 -221
