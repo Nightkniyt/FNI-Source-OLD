@@ -73,10 +73,7 @@ class KadeEngineData
 		if (FlxG.save.data.distractions == null)
 			FlxG.save.data.distractions = true;
 		
-	    	if (FlxG.save.data.colour == null)
-			FlxG.save.data.colour = true;
-		
-	        if (FlxG.save.data.stepMania == null)
+		if (FlxG.save.data.stepMania == null)
 			FlxG.save.data.stepMania = false;
 
 		if (FlxG.save.data.flashing == null)
@@ -84,9 +81,6 @@ class KadeEngineData
 
 		if (FlxG.save.data.resetButton == null)
 			FlxG.save.data.resetButton = false;
-
-		if (FlxG.save.data.InstantRespawn == null)
-			FlxG.save.data.InstantRespawn = false;
 		
 		if (FlxG.save.data.botplay == null)
 			FlxG.save.data.botplay = false;
@@ -114,12 +108,6 @@ class KadeEngineData
 		
 		if (FlxG.save.data.cacheImages == null)
 			FlxG.save.data.cacheImages = false;
-
-		if (FlxG.save.data.editorBG == null)
-			FlxG.save.data.editor = false;
-		
-		if (FlxG.save.data.zoom == null)
-			FlxG.save.data.zoom = 1;
 
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 		

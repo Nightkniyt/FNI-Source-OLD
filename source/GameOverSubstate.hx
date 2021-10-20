@@ -16,13 +16,16 @@ class GameOverSubstate extends MusicBeatSubstate
 
 	public function new(x:Float, y:Float)
 	{
-		var daStage = PlayState.Stage.curStage;
+		var daStage = PlayState.curStage;
 		var daBf:String = '';
-		switch (PlayState.boyfriend.curCharacter)
+		switch (PlayState.SONG.player1)
 		{
 			case 'bf-pixel':
 				stageSuffix = '-pixel';
 				daBf = 'bf-pixel-dead';
+			case 'bf-scared':
+				stageSuffix = '-trollge';
+				daBf = 'bf-scared';
 			default:
 				daBf = 'bf';
 		}
@@ -57,11 +60,6 @@ class GameOverSubstate extends MusicBeatSubstate
 		if (controls.ACCEPT)
 		{
 			endBullshit();
-		}
-
-		if(FlxG.save.data.InstantRespawn)
-		{
-			LoadingState.loadAndSwitchState(new PlayState());
 		}
 
 		if (controls.BACK)
@@ -113,7 +111,10 @@ class GameOverSubstate extends MusicBeatSubstate
 			isEnding = true;
 			bf.playAnim('deathConfirm', true);
 			FlxG.sound.music.stop();
-			FlxG.sound.play(Paths.music('gameOverEnd' + stageSuffix));
+			if(PlayState.SONG.player1 == 'bf-scared')
+				FlxG.sound.play(Paths.music('gameOverEnd-trollge'));
+			else
+				FlxG.sound.play(Paths.music('gameOverEnd'));
 			new FlxTimer().start(0.7, function(tmr:FlxTimer)
 			{
 				FlxG.camera.fade(FlxColor.BLACK, 2, false, function()

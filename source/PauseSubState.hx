@@ -2,7 +2,7 @@ package;
 
 import flixel.input.gamepad.FlxGamepad;
 import openfl.Lib;
-#if desktop
+#if windows
 import llua.Lua;
 #end
 import Controls.Control;
@@ -22,7 +22,7 @@ class PauseSubState extends MusicBeatSubstate
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Options', 'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -161,7 +161,7 @@ class PauseSubState extends MusicBeatSubstate
 				{
 					grpMenuShit.clear();
 
-					menuItems = ['Restart Song', 'Exit to menu'];
+					menuItems = ['Resume', 'Restart Song', 'Options', 'Exit to menu'];
 
 					for (i in 0...menuItems.length)
 					{
@@ -187,7 +187,7 @@ class PauseSubState extends MusicBeatSubstate
 				{
 					grpMenuShit.clear();
 
-					menuItems = ['Restart Song', 'Exit to menu'];
+					menuItems = ['Resume', 'Restart Song', 'Options', 'Exit to menu'];
 
 					for (i in 0...menuItems.length)
 					{
@@ -205,11 +205,10 @@ class PauseSubState extends MusicBeatSubstate
 			}
 		#end
 
-		if (controls.ACCEPT && !FlxG.keys.pressed.ALT)
+		if (controls.ACCEPT)
 		{
 			var daSelected:String = menuItems[curSelected];
 
-			
 			switch (daSelected)
 			{
 				case "Resume":
@@ -222,8 +221,15 @@ class PauseSubState extends MusicBeatSubstate
 						PlayState.instance.remove(PlayState.instance.videoSprite);
 						PlayState.instance.removedVideo = true;
 					}
-					PlayState.instance.clean();
 					FlxG.resetState();
+				case "Options":
+					if (PlayState.instance.useVideo)
+					{
+						GlobalVideo.get().stop();
+						PlayState.instance.remove(PlayState.instance.videoSprite);
+						PlayState.instance.removedVideo = true;
+					}
+					FlxG.switchState(new OptionsMenu());
 				case "Exit to menu":
 					PlayState.startTime = 0;
 					if (PlayState.instance.useVideo)
@@ -239,7 +245,7 @@ class PauseSubState extends MusicBeatSubstate
 						FlxG.save.data.downscroll = false;
 					}
 					PlayState.loadRep = false;
-					#if desktop
+					#if windows
 					if (PlayState.luaModchart != null)
 					{
 						PlayState.luaModchart.die();
@@ -249,8 +255,6 @@ class PauseSubState extends MusicBeatSubstate
 					if (FlxG.save.data.fpsCap > 290)
 						(cast (Lib.current.getChildAt(0), Main)).setFPSCap(290);
 					
-					PlayState.instance.clean();
-
 					if (PlayState.isStoryMode)
 						FlxG.switchState(new StoryMenuState());
 					else

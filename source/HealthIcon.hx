@@ -3,51 +3,41 @@ package;
 import flixel.FlxG;
 import flixel.FlxSprite;
 
-using StringTools;
-
 class HealthIcon extends FlxSprite
 {
-	public var char:String = 'bf';
-	public var isPlayer:Bool = false;
-	public var isOldIcon:Bool = false;
-
 	/**
 	 * Used for FreeplayState! If you use it elsewhere, prob gonna annoying
 	 */
 	public var sprTracker:FlxSprite;
 
-	public function new(?char:String = "bf", ?isPlayer:Bool = false)
+	public function new(char:String = 'bf', isPlayer:Bool = false)
 	{
 		super();
 
-		this.char = char;
-		this.isPlayer = isPlayer;
-
-		isPlayer = isOldIcon = false;
-
-		antialiasing = FlxG.save.data.antialiasing;
-
-		changeIcon(char);
-		scrollFactor.set();
-	}
-
-	public function swapOldIcon()
-	{
-		(isOldIcon = !isOldIcon) ? changeIcon("bf-old") : changeIcon(char);
-	}
-
-	public function changeIcon(char:String)
-	{
-		if (char != 'bf-pixel' && char != 'bf-old')
-			char = char.split("-")[0];
-
-		loadGraphic(Paths.image('icons/icon-' + char), true, 150, 150);
-		if(char.endsWith('-pixel') || char.startsWith('senpai') || char.startsWith('spirit'))
-			antialiasing = false
-		else
-			antialiasing = FlxG.save.data.antialiasing;
-		animation.add(char, [0, 1], 0, false, isPlayer);
+		if(FlxG.save.data.antialiasing)
+			{
+				antialiasing = true;
+			}
+		if (char == 'sm')
+		{
+			loadGraphic(Paths.image("stepmania-icon"));
+			return;
+		}
+		loadGraphic(Paths.image('iconGrid'), true, 150, 150);
+		animation.add('bf', [0, 1], 0, false, isPlayer);
+		animation.add('bf-scared', [0, 1], 0, false, isPlayer);
+		animation.add('sirtroll', [2, 3], 0, false, isPlayer);
+		animation.add('coughtroll', [4, 5], 0, false, isPlayer);
+		animation.add('trollge', [6, 7], 0, false, isPlayer);
 		animation.play(char);
+
+		switch(char)
+		{
+			case 'bf-pixel' | 'senpai' | 'senpai-angry' | 'spirit' | 'gf-pixel':
+				antialiasing = false;
+		}
+
+		scrollFactor.set();
 	}
 
 	override function update(elapsed:Float)

@@ -1,7 +1,7 @@
 package;
 
 import lime.app.Application;
-#if desktop
+#if windows
 import Discord.DiscordClient;
 #end
 import openfl.display.BlendMode;
@@ -78,10 +78,6 @@ class Main extends Sprite
 			gameHeight = Math.ceil(stageHeight / zoom);
 		}
 
-		#if !cpp
-		framerate = 60;
-		#end
-
 		#if cpp
 		initialState = Caching;
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
@@ -89,7 +85,7 @@ class Main extends Sprite
 		game = new FlxGame(gameWidth, gameHeight, initialState, zoom, framerate, framerate, skipSplash, startFullscreen);
 		#end
 		addChild(game);
-		#if desktop
+		#if windows
 		DiscordClient.initialize();
 
 		Application.current.onExit.add (function (exitCode) {

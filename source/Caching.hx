@@ -2,7 +2,7 @@
 package;
 
 import lime.app.Application;
-#if desktop
+#if windows
 import Discord.DiscordClient;
 #end
 import openfl.display.BitmapData;
@@ -73,14 +73,9 @@ class Caching extends MusicBeatState
 		text.y -= kadeLogo.height / 2 - 125;
 		text.x -= 170;
 		kadeLogo.setGraphicSize(Std.int(kadeLogo.width * 0.6));
-		if(FlxG.save.data.antialiasing != null)
-			kadeLogo.antialiasing = FlxG.save.data.antialiasing;
-		else
-			kadeLogo.antialiasing = true;
+		kadeLogo.antialiasing = true;
 		
 		kadeLogo.alpha = 0;
-
-		FlxGraphic.defaultPersist = FlxG.save.data.cacheImages;
 
 		#if cpp
 		if (FlxG.save.data.cacheImages)
@@ -152,7 +147,6 @@ class Caching extends MusicBeatState
 
 	function cache()
 	{
-		#if !linux
 		trace("LOADING: " + toBeDone + " OBJECTS.");
 
 		for (i in images)
@@ -182,7 +176,6 @@ class Caching extends MusicBeatState
 
 		trace(Assets.cache.hasBitmapData('GF_assets'));
 
-		#end
 		FlxG.switchState(new TitleState());
 	}
 

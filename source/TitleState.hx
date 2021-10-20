@@ -27,7 +27,7 @@ import io.newgrounds.NG;
 import lime.app.Application;
 import openfl.Assets;
 
-#if desktop
+#if windows
 import Discord.DiscordClient;
 #end
 
@@ -77,7 +77,6 @@ class TitleState extends MusicBeatState
 		
 		#end
 
-
 				
 		Highscore.load();
 
@@ -99,10 +98,8 @@ class TitleState extends MusicBeatState
 
 		#if FREEPLAY
 		FlxG.switchState(new FreeplayState());
-		clean();
 		#elseif CHARTING
 		FlxG.switchState(new ChartingState());
-		clean();
 		#else
 		#if !cpp
 		new FlxTimer().start(1, function(tmr:FlxTimer)
@@ -125,7 +122,7 @@ class TitleState extends MusicBeatState
 		persistentUpdate = true;
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
-		// bg.antialiasing = FlxG.save.data.antialiasing;
+		// bg.antialiasing = true;
 		// bg.setGraphicSize(Std.int(bg.width * 0.6));
 		// bg.updateHitbox();
 		add(bg);
@@ -137,7 +134,10 @@ class TitleState extends MusicBeatState
 			logoBl = new FlxSprite(-150, -100);
 			logoBl.frames = Paths.getSparrowAtlas('logoBumpin');
 		}
-		logoBl.antialiasing = FlxG.save.data.antialiasing;
+		if(FlxG.save.data.antialiasing)
+			{
+				logoBl.antialiasing = true;
+			}
 		logoBl.animation.addByPrefix('bump', 'logo bumpin', 24, false);
 		logoBl.updateHitbox();
 		// logoBl.screenCenter();
@@ -147,7 +147,10 @@ class TitleState extends MusicBeatState
 		gfDance.frames = Paths.getSparrowAtlas('gfDanceTitle');
 		gfDance.animation.addByIndices('danceLeft', 'gfDance', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 		gfDance.animation.addByIndices('danceRight', 'gfDance', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-		gfDance.antialiasing = FlxG.save.data.antialiasing;
+		if(FlxG.save.data.antialiasing)
+			{
+				gfDance.antialiasing = true;
+			}
 		add(gfDance);
 		add(logoBl);
 
@@ -155,7 +158,10 @@ class TitleState extends MusicBeatState
 		titleText.frames = Paths.getSparrowAtlas('titleEnter');
 		titleText.animation.addByPrefix('idle', "Press Enter to Begin", 24);
 		titleText.animation.addByPrefix('press', "ENTER PRESSED", 24);
-		titleText.antialiasing = FlxG.save.data.antialiasing;
+		if(FlxG.save.data.antialiasing)
+			{
+				titleText.antialiasing = true;
+			}
 		titleText.animation.play('idle');
 		titleText.updateHitbox();
 		// titleText.screenCenter(X);
@@ -163,7 +169,10 @@ class TitleState extends MusicBeatState
 
 		var logo:FlxSprite = new FlxSprite().loadGraphic(Paths.image('logo'));
 		logo.screenCenter();
-		logo.antialiasing = FlxG.save.data.antialiasing;
+		if(FlxG.save.data.antialiasing)
+			{
+				logo.antialiasing = true;
+			}
 		// add(logo);
 
 		// FlxTween.tween(logoBl, {y: logoBl.y + 50}, 0.6, {ease: FlxEase.quadInOut, type: PINGPONG});
@@ -189,7 +198,10 @@ class TitleState extends MusicBeatState
 		ngSpr.setGraphicSize(Std.int(ngSpr.width * 0.8));
 		ngSpr.updateHitbox();
 		ngSpr.screenCenter(X);
-		ngSpr.antialiasing = FlxG.save.data.antialiasing;
+		if(FlxG.save.data.antialiasing)
+			{
+				ngSpr.antialiasing = true;
+			}
 
 		FlxTween.tween(credTextShit, {y: credTextShit.y + 20}, 2.9, {ease: FlxEase.quadInOut, type: PINGPONG});
 
@@ -307,19 +319,16 @@ class TitleState extends MusicBeatState
 						OutdatedSubState.needVer = returnedData[0];
 						OutdatedSubState.currChanges = returnedData[1];
 						FlxG.switchState(new OutdatedSubState());
-						clean();
 					}
 					else
 					{
 						FlxG.switchState(new MainMenuState());
-						clean();
 					}
 				}
 				
 				http.onError = function (error) {
 				  trace('error: $error');
 				  FlxG.switchState(new MainMenuState()); // fail but we go anyway
-				  clean();
 				}
 				
 				http.request();
@@ -384,25 +393,22 @@ class TitleState extends MusicBeatState
 			case 0:
 				deleteCoolText();
 			case 1:
-				createCoolText(['ninjamuffin99', 'phantomArcade', 'kawaisprite', 'evilsk8er']);
-			// credTextShit.visible = true;
+				createCoolText(['Troll Team']);
 			case 3:
-				addMoreText('present');
-			// credTextShit.text += '\npresent...';
-			// credTextShit.addText();
-			case 4:
-				deleteCoolText();
+				addMoreText('Presents');
 			// credTextShit.visible = false;
 			// credTextShit.text = 'In association \nwith';
 			// credTextShit.screenCenter();
+			case 4:
+				deleteCoolText();
 			case 5:
 				if (Main.watermarks)
-					createCoolText(['Kade Engine', 'by']);
+					createCoolText(['Made in', 'And thanks to']);
 				else
-					createCoolText(['In Partnership', 'with']);
+					createCoolText(['Thanks', 'To']);
 			case 7:
 				if (Main.watermarks)
-					addMoreText('KadeDeveloper');
+					addMoreText('Kade Engine');
 				else
 				{
 					addMoreText('Newgrounds');
@@ -421,20 +427,21 @@ class TitleState extends MusicBeatState
 			// credTextShit.visible = true;
 			case 11:
 				addMoreText(curWacky[1]);
+				addMoreText(curWacky[2]);
 			// credTextShit.text += '\nlmao';
 			case 12:
 				deleteCoolText();
 			// credTextShit.visible = false;
-			// credTextShit.text = "Friday";
+			// credTextShit.text = "Time";
 			// credTextShit.screenCenter();
 			case 13:
-				addMoreText('Friday');
+				addMoreText('We do');
 			// credTextShit.visible = true;
 			case 14:
-				addMoreText('Night');
-			// credTextShit.text += '\nNight';
+				addMoreText('a little');
+			// credTextShit.text += '\nto do';
 			case 15:
-				addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+				addMoreText('trolling'); // credTextShit.text += '\nsome Trolling';
 
 			case 16:
 				skipIntro();
