@@ -1,0 +1,3 @@
+Glad:sirtroll:1
+Prepare:coughtroll:1
+Evacuate:trollge:1
